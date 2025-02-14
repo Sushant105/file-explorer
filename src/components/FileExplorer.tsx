@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { openFolder, createFolder, deleteFolder, renameFolder, moveFolder } from "../redux/fileExplorerSlice";
-import Folder from "./Folder";
+import Folders from "./Folder";
 import styled from "styled-components";
 
 const ExplorerContainer = styled.div`
@@ -70,13 +70,13 @@ const findCurrentFolder = (folders: Folder[], parentId: string | null): Folder[]
     dispatch(moveFolder({ draggedId, targetId }));
   };
 
-  const handleCreateFolder = () => {
-    const folderName = prompt("Enter folder name:");
-    if (folderName) {
-      console.log("Creating folder with name:", folderName);
-      dispatch(createFolder({ parentId: currentFolderId, name: folderName }));
-    }
-  };
+  // const handleCreateFolder = () => {
+  //   const folderName = prompt("Enter folder name:");
+  //   if (folderName) {
+  //     console.log("Creating folder with name:", folderName);
+  //     dispatch(createFolder({ parentId: currentFolderId, name: folderName }));
+  //   }
+  // };
 
   const currentFolders = findCurrentFolder(folders, currentFolderId);
 
@@ -91,7 +91,7 @@ const findCurrentFolder = (folders: Folder[], parentId: string | null): Folder[]
 
       <GridContainer>
         {currentFolders.map((folder) => (
-          <Folder
+          <Folders
             key={folder.id}
             id={folder.id}
             name={folder.name}
