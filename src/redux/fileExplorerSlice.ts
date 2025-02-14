@@ -1,4 +1,3 @@
-// src/redux/fileExplorerSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Folder = {
@@ -38,7 +37,7 @@ const initialState: FileExplorerState = {
       children: [],
     },
   ],
-  currentFolderId: null, // Root by default
+  currentFolderId: null,
 };
 
 const findFolder = (folders: Folder[], folderId: string): Folder | null => {
@@ -68,33 +67,12 @@ const fileExplorerSlice = createSlice({
         children: [],
       };
 
-
-
-      // if (parentId === null) {
-      //   state.folders.push(newFolder);
-      // } else {
-      //   const findFolder = (folders: Folder[]): Folder | null => {
-      //     for (const folder of folders) {
-      //       if (folder.id === parentId) return folder;
-      //       const found = findFolder(folder.children);
-      //       if (found) return found;
-      //     }
-      //     return null;
-      //   };
-      //   const parentFolder = findFolder(state.folders);
-      //   if (parentFolder) {
-      //     parentFolder.children.push(newFolder);
-      //   }
-      // }
       if (parentId === null) {
-        // Add folder to the root when in the main screen
-        // state.folders.push(newFolder);
+
         state.folders = [...state.folders, newFolder];
       } else {
-        // Add folder inside the current open folder
         const parentFolder = findFolder(state.folders, parentId);
         if (parentFolder) {
-          // parentFolder.children.push(newFolder);
           parentFolder.children = [...parentFolder.children, newFolder];
         }
       }
@@ -129,7 +107,6 @@ const fileExplorerSlice = createSlice({
       const moveFolder = (folders: Folder[], draggedId: string, targetId: string): Folder[] => {
         let draggedFolder: Folder | null = null;
 
-        // Remove folder from its original location
         const updatedFolders = folders.filter((folder) => {
           if (folder.id === draggedId) {
             draggedFolder = folder;
@@ -139,7 +116,6 @@ const fileExplorerSlice = createSlice({
           return true;
         });
 
-        // Add folder under new parent
         if (draggedFolder) {
           const targetFolder = updatedFolders.find((folder) => folder.id === targetId);
           if (targetFolder) {
@@ -152,33 +128,6 @@ const fileExplorerSlice = createSlice({
 
       state.folders = moveFolder(state.folders, action.payload.draggedId, action.payload.targetId);
     },
-
-    // moveFolder: (state, action: PayloadAction<{ draggedId: string; targetId: string }>) => {
-    //   let draggedFolder: Folder | null = null;
-
-    //   // Remove the folder from its original location
-    //   const removeFolder = (folders: Folder[]): Folder[] =>
-    //     folders
-    //       .filter((folder) => {
-    //         if (folder.id === action.payload.draggedId) {
-    //           draggedFolder = folder;
-    //           return false;
-    //         }
-    //         folder.children = removeFolder(folder.children);
-    //         return true;
-    //       });
-
-    //   state.folders = removeFolder(state.folders);
-
-    //   if (draggedFolder) {
-    //     const targetFolder = findFolder(state.folders, action.payload.targetId);
-    //     if (targetFolder) {
-    //       targetFolder.children.push(draggedFolder);
-    //       draggedFolder.parentId = action.payload.targetId; // Update parent reference
-    //     }
-    //   }
-    // },
-
     setCurrentFolder: (state, action: PayloadAction<string | null>) => {
       state.currentFolderId = action.payload;
     },

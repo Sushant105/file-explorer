@@ -1,4 +1,3 @@
-// src/components/FileExplorer.tsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
@@ -56,27 +55,10 @@ const findCurrentFolder = (folders: Folder[], parentId: string | null): Folder[]
   }
   return [];
 };
-  // const findCurrentFolder = (folders: Folder[], parentId: string | null): Folder[] => {
-  //   if (parentId === null) return folders;
-  //   for (const folder of folders) {
-  //     if (folder.id === parentId) return folder.children;
-  //     const found = findCurrentFolder(folder.children, parentId);
-  //     if (found) return found;
-  //   }
-  //   return [];
-  // };
 
   const handleMoveFolder = (draggedId: string, targetId: string) => {
     dispatch(moveFolder({ draggedId, targetId }));
   };
-
-  // const handleCreateFolder = () => {
-  //   const folderName = prompt("Enter folder name:");
-  //   if (folderName) {
-  //     console.log("Creating folder with name:", folderName);
-  //     dispatch(createFolder({ parentId: currentFolderId, name: folderName }));
-  //   }
-  // };
 
   const currentFolders = findCurrentFolder(folders, currentFolderId);
 
